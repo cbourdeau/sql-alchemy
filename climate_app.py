@@ -1,31 +1,29 @@
-# 1. Import Flask
+# 1. Import Modules
 import numpy as np
-
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-
 from flask import Flask, jsonify
 import datetime as dt
 
-# Database Setup
+# Setup SQLite Database
 engine = create_engine("sqlite:///Resources/hawaii.sqlite")
 
-# reflect an existing database into a new model
+# Reflect database into a new model
 Base = automap_base()
 
-# reflect the tables
+# Reflect tables
 Base.prepare(engine, reflect=True)
 
-# Save reference to the table
+# Save references to the tables
 Measurement = Base.classes.measurement
 Station = Base.classes.station
 
-# Create our session (link) from Python to the DB
+# Create our session (link) from Python to the Database
 session = Session(engine)
 
-# 2. Create an app
+# 2. Create a Flask app
 app = Flask(__name__)
 
 # 3. Define static routes
@@ -58,7 +56,7 @@ def home():
 
 @app.route("/api/v1.0/precipitation")
 def prcp():
-    # Query results to a Dictionary and return the JSON representation of the dictionary
+    # Query results to a Dictionary and return a JSON
     # Calculate the date a year ago from the last data point in the database
     a_year_ago = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     
